@@ -54,7 +54,7 @@ export interface TrackingEvent {
 
 export interface User {
   id: string
-  email: string
+  email?: string
   full_name?: string
   company?: string
   phone?: string
