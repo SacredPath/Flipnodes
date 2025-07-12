@@ -70,7 +70,21 @@ export const shipmentApi = {
   async getAll(): Promise<Shipment[]> {
     const { data, error } = await supabase
       .from('shipments')
+      .select(`
+        *,
+        users!inner(email, full_name, company)
+      `)
+      .order('created_at', { ascending: false })
+    
+    if (error) throw error
+    return data || []
+  },
+
+  async getByCustomerId(customerId: string): Promise<Shipment[]> {
+    const { data, error } = await supabase
+      .from('shipments')
       .select('*')
+      .eq('customer_id', customerId)
       .order('created_at', { ascending: false })
     
     if (error) throw error
@@ -80,7 +94,10 @@ export const shipmentApi = {
   async getById(id: string): Promise<Shipment | null> {
     const { data, error } = await supabase
       .from('shipments')
-      .select('*')
+      .select(`
+        *,
+        users!inner(email, full_name, company)
+      `)
       .eq('id', id)
       .single()
     
@@ -91,7 +108,10 @@ export const shipmentApi = {
   async getByTrackingNumber(trackingNumber: string): Promise<Shipment | null> {
     const { data, error } = await supabase
       .from('shipments')
-      .select('*')
+      .select(`
+        *,
+        users!inner(email, full_name, company)
+      `)
       .eq('tracking_number', trackingNumber)
       .single()
     
@@ -129,6 +149,28 @@ export const shipmentApi = {
       .eq('id', id)
     
     if (error) throw error
+  },
+
+  async getStats(): Promise<{
+    total: number
+    inTransit: number
+    delivered: number
+    pending: number
+  }> {
+    const { data, error } = await supabase
+      .from('shipments')
+      .select('status')
+    
+    if (error) throw error
+
+    const stats = {
+      total: data?.length || 0,
+      inTransit: data?.filter(s => s.status === 'in_transit').length || 0,
+      delivered: data?.filter(s => s.status === 'delivered').length || 0,
+      pending: data?.filter(s => s.status === 'pending').length || 0,
+    }
+
+    return stats
   }
 }
 
@@ -149,6 +191,18 @@ export const trackingApi = {
     const { data, error } = await supabase
       .from('tracking_events')
       .insert([event])
+      .select()
+      .single()
+    
+    if (error) throw error
+    return data
+  },
+
+  async update(id: string, updates: Partial<TrackingEvent>): Promise<TrackingEvent> {
+    const { data, error } = await supabase
+      .from('tracking_events')
+      .update(updates)
+      .eq('id', id)
       .select()
       .single()
     
@@ -178,6 +232,137 @@ export const userApi = {
       .from('users')
       .update(updates)
       .eq('id', userId)
+      .select()
+      .single()
+    
+    if (error) throw error
+    return data
+  },
+
+  async getAllUsers(): Promise<User[]> {
+    const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .order('created_at', { ascending: false })
+    
+    if (error) throw error
+    return data || []
+  },
+
+  async getUserById(id: string): Promise<User | null> {
+    const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', id)
+      .single()
+    
+    if (error) throw error
+    return data
+  }
+}
+
+// Document API functions
+export const documentApi = {
+  async getByShipmentId(shipmentId: string) {
+    const { data, error } = await supabase
+      .from('documents')
+      .select('*')
+      .eq('shipment_id', shipmentId)
+      .order('created_at', { ascending: false })
+    
+    if (error) throw error
+    return data || []
+  },
+
+  async uploadDocument(shipmentId: string, file: File) {
+    const fileName = `${shipmentId}/${file.name}`
+    const { data, error } = await supabase.storage
+      .from('documents')
+      .upload(fileName, file)
+    
+    if (error) throw error
+
+    const { data: document, error: docError } = await supabase
+      .from('documents')
+      .insert([{
+        shipment_id: shipmentId,
+        name: file.name,
+        file_path: data.path,
+        file_size: file.size,
+        mime_type: file.type
+      }])
+      .select()
+      .single()
+    
+    if (docError) throw docError
+    return document
+  },
+
+  async getDownloadUrl(filePath: string) {
+    const { data } = supabase.storage
+      .from('documents')
+      .getPublicUrl(filePath)
+    
+    return data.publicUrl
+  }
+}
+
+// Support API functions
+export const supportApi = {
+  async createTicket(ticket: {
+    user_id: string
+    shipment_id?: string
+    subject: string
+    message: string
+    priority?: string
+  }) {
+    const { data, error } = await supabase
+      .from('support_tickets')
+      .insert([ticket])
+      .select()
+      .single()
+    
+    if (error) throw error
+    return data
+  },
+
+  async getTicketsByUser(userId: string) {
+    const { data, error } = await supabase
+      .from('support_tickets')
+      .select(`
+        *,
+        shipments(tracking_number, origin, destination)
+      `)
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+    
+    if (error) throw error
+    return data || []
+  },
+
+  async getAllTickets() {
+    const { data, error } = await supabase
+      .from('support_tickets')
+      .select(`
+        *,
+        users(email, full_name),
+        shipments(tracking_number, origin, destination)
+      `)
+      .order('created_at', { ascending: false })
+    
+    if (error) throw error
+    return data || []
+  },
+
+  async updateTicket(id: string, updates: {
+    status?: string
+    priority?: string
+    message?: string
+  }) {
+    const { data, error } = await supabase
+      .from('support_tickets')
+      .update(updates)
+      .eq('id', id)
       .select()
       .single()
     

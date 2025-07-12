@@ -1,98 +1,59 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import '@/styles/globals.css'
-import Link from 'next/link'
-import { Menu, X } from 'lucide-react'
-import { useState } from 'react'
+import './globals.css'
+import { AuthProvider } from '@/contexts/AuthContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'FlipRoutes - Smart Shipment Tracking',
-  description: 'Track your shipments in real-time with FlipRoutes intelligent logistics platform',
-  keywords: 'shipment tracking, logistics, delivery, courier, shipping',
+  title: 'FlipRoutes - Global Logistics Platform',
+  description: 'Streamline your global logistics with FlipRoutes. Track shipments, manage customs, and optimize your supply chain.',
+  keywords: 'logistics, shipping, freight, customs, supply chain, tracking',
   authors: [{ name: 'FlipRoutes Team' }],
-  viewport: 'width=device-width, initial-scale=1',
-}
-
-function Navigation() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-
-  return (
-    <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/" className="text-2xl font-bold text-blue-600">
-            FlipRoutes
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link href="/track" className="text-gray-700 hover:text-blue-600 transition-colors">
-              Track
-            </Link>
-            <Link href="/pricing" className="text-gray-700 hover:text-blue-600 transition-colors">
-              Pricing
-            </Link>
-            <Link href="/login" className="text-gray-700 hover:text-blue-600 transition-colors">
-              Sign In
-            </Link>
-            <Link 
-              href="/login" 
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              Get Started
-            </Link>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-200">
-            <div className="flex flex-col space-y-4">
-              <Link 
-                href="/track" 
-                className="text-gray-700 hover:text-blue-600 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Track
-              </Link>
-              <Link 
-                href="/pricing" 
-                className="text-gray-700 hover:text-blue-600 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Pricing
-              </Link>
-              <Link 
-                href="/login" 
-                className="text-gray-700 hover:text-blue-600 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Sign In
-              </Link>
-              <Link 
-                href="/login" 
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors inline-block"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Get Started
-              </Link>
-            </div>
-          </div>
-        )}
-      </div>
-    </nav>
-  )
+  creator: 'FlipRoutes',
+  publisher: 'FlipRoutes',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
+  openGraph: {
+    title: 'FlipRoutes - Global Logistics Platform',
+    description: 'Streamline your global logistics with FlipRoutes. Track shipments, manage customs, and optimize your supply chain.',
+    url: '/',
+    siteName: 'FlipRoutes',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'FlipRoutes - Global Logistics Platform',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'FlipRoutes - Global Logistics Platform',
+    description: 'Streamline your global logistics with FlipRoutes. Track shipments, manage customs, and optimize your supply chain.',
+    images: ['/og-image.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'your-google-verification-code',
+  },
 }
 
 export default function RootLayout({
@@ -103,10 +64,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navigation />
-        <div className="min-h-screen bg-gray-50">
+        <AuthProvider>
           {children}
-        </div>
+        </AuthProvider>
       </body>
     </html>
   )
