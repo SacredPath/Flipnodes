@@ -4,8 +4,6 @@ const nextConfig = {
   images: {
     domains: ['localhost'],
   },
-  // Add output configuration for Vercel
-  output: 'standalone',
   // Ensure proper TypeScript handling
   typescript: {
     ignoreBuildErrors: false,

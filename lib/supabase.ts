@@ -9,7 +9,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 export interface Shipment {
   id: string
   tracking_number: string
-  status: 'pending' | 'in_transit' | 'delivered' | 'failed'
+  status: 'pending' | 'in_transit' | 'at_port' | 'delivered' | 'failed'
   origin: string
   destination: string
   created_at: string
@@ -24,6 +24,22 @@ export interface Shipment {
     width: number
     height: number
   }
+  eta?: string
+  container?: string
+  vessel?: string
+  voyage?: string
+  volume?: number
+  value?: number
+  cargo_type?: string
+  special_instructions?: string
+  progress?: number
+  shipper_name?: string
+  consignee_name?: string
+  port_of_loading?: string
+  port_of_discharge?: string
+  bill_of_lading?: string
+  customs_status?: string
+  insurance?: string
 }
 
 export interface TrackingEvent {
@@ -33,13 +49,17 @@ export interface TrackingEvent {
   location: string
   timestamp: string
   description: string
+  icon?: string
 }
 
 export interface User {
   id: string
   email: string
-  full_name: string
+  full_name?: string
   company?: string
+  phone?: string
+  address?: string
   role: 'customer' | 'admin'
   created_at: string
+  updated_at: string
 } 
