@@ -118,6 +118,16 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-blue-50 to-indigo-100 overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-600/10"></div>
+        <div className="absolute top-0 right-0 w-1/3 h-full">
+          <Image
+            src="/hero-section.png"
+            alt="Global Logistics"
+            fill
+            className="object-cover opacity-20"
+            priority
+          />
+        </div>
         <div className="container mx-auto px-4 pt-20 pb-32 relative">
           <div className="max-w-4xl mx-auto text-center">
             <div className="inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-8">
@@ -187,8 +197,17 @@ export default function HomePage() {
       </section>
 
       {/* Services Overview */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
+      <section className="py-20 bg-gray-50 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50"></div>
+        <div className="absolute top-0 right-0 w-1/4 h-full opacity-10">
+          <Image
+            src="/Ocean-freight.jpg"
+            alt="Ocean Freight"
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="container mx-auto px-4 relative">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">Complete Supply Chain Solutions</h2>
             <p className="text-xl text-gray-700 max-w-3xl mx-auto">
@@ -197,70 +216,100 @@ export default function HomePage() {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
-                <Truck className="w-8 h-8 text-blue-600" />
+            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 opacity-5">
+                <Image src="/air-freight.png" alt="Air Freight" fill className="object-cover" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Air Freight</h3>
-              <p className="text-gray-600 mb-6">Fast, reliable air freight solutions with real-time tracking and instant quotes from major carriers worldwide.</p>
-              <Link href="/air-freight" className="text-blue-600 hover:text-blue-700 font-medium flex items-center">
-                Learn more <ChevronRight className="w-4 h-4 ml-1" />
-              </Link>
+              <div className="relative">
+                <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                  <Truck className="w-8 h-8 text-blue-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-4">Air Freight</h3>
+                <p className="text-gray-600 mb-6">Fast, reliable air freight solutions with real-time tracking and instant quotes from major carriers worldwide.</p>
+                <Link href="/air-freight" className="text-blue-600 hover:text-blue-700 font-medium flex items-center">
+                  Learn more <ChevronRight className="w-4 h-4 ml-1" />
+                </Link>
+              </div>
             </div>
             
-            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
-                <Globe className="w-8 h-8 text-blue-600" />
+            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 opacity-5">
+                <Image src="/Ocean-freight.jpg" alt="Ocean Freight" fill className="object-cover" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Ocean Freight</h3>
-              <p className="text-gray-600 mb-6">Cost-effective ocean freight with comprehensive coverage, customs clearance, and end-to-end visibility.</p>
-              <Link href="/ocean-freight" className="text-blue-600 hover:text-blue-700 font-medium flex items-center">
-                Learn more <ChevronRight className="w-4 h-4 ml-1" />
-              </Link>
+              <div className="relative">
+                <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                  <Globe className="w-8 h-8 text-blue-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-4">Ocean Freight</h3>
+                <p className="text-gray-600 mb-6">Cost-effective ocean freight with comprehensive coverage, customs clearance, and end-to-end visibility.</p>
+                <Link href="/ocean-freight" className="text-blue-600 hover:text-blue-700 font-medium flex items-center">
+                  Learn more <ChevronRight className="w-4 h-4 ml-1" />
+                </Link>
+              </div>
             </div>
             
-            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
-                <MapPin className="w-8 h-8 text-blue-600" />
+            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 opacity-5">
+                <Image src="/trucking.png" alt="Trucking" fill className="object-cover" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Trucking</h3>
-              <p className="text-gray-600 mb-6">Reliable ground transportation with comprehensive coverage across North America, Europe, and Asia.</p>
-              <Link href="/trucking" className="text-blue-600 hover:text-blue-700 font-medium flex items-center">
-                Learn more <ChevronRight className="w-4 h-4 ml-1" />
-              </Link>
+              <div className="relative">
+                <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                  <MapPin className="w-8 h-8 text-blue-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-4">Trucking</h3>
+                <p className="text-gray-600 mb-6">Reliable ground transportation with comprehensive coverage across North America, Europe, and Asia.</p>
+                <Link href="/trucking" className="text-blue-600 hover:text-blue-700 font-medium flex items-center">
+                  Learn more <ChevronRight className="w-4 h-4 ml-1" />
+                </Link>
+              </div>
             </div>
             
-            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
-                <Database className="w-8 h-8 text-blue-600" />
+            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 opacity-5">
+                <Image src="/fulfilment.png" alt="Warehousing" fill className="object-cover" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Warehousing</h3>
-              <p className="text-gray-600 mb-6">Strategic warehousing solutions with inventory management, order fulfillment, and distribution services.</p>
-              <Link href="/warehousing" className="text-blue-600 hover:text-blue-700 font-medium flex items-center">
-                Learn more <ChevronRight className="w-4 h-4 ml-1" />
-              </Link>
+              <div className="relative">
+                <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                  <Database className="w-8 h-8 text-blue-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-4">Warehousing</h3>
+                <p className="text-gray-600 mb-6">Strategic warehousing solutions with inventory management, order fulfillment, and distribution services.</p>
+                <Link href="/warehousing" className="text-blue-600 hover:text-blue-700 font-medium flex items-center">
+                  Learn more <ChevronRight className="w-4 h-4 ml-1" />
+                </Link>
+              </div>
             </div>
             
-            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
-                <FileText className="w-8 h-8 text-blue-600" />
+            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 opacity-5">
+                <Image src="/hero-section.png" alt="Customs" fill className="object-cover" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Customs Clearance</h3>
-              <p className="text-gray-600 mb-6">Expert customs brokerage with automated documentation, duty calculation, and compliance management.</p>
-              <Link href="/customs" className="text-blue-600 hover:text-blue-700 font-medium flex items-center">
-                Learn more <ChevronRight className="w-4 h-4 ml-1" />
-              </Link>
+              <div className="relative">
+                <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                  <FileText className="w-8 h-8 text-blue-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-4">Customs Clearance</h3>
+                <p className="text-gray-600 mb-6">Expert customs brokerage with automated documentation, duty calculation, and compliance management.</p>
+                <Link href="/customs" className="text-blue-600 hover:text-blue-700 font-medium flex items-center">
+                  Learn more <ChevronRight className="w-4 h-4 ml-1" />
+                </Link>
+              </div>
             </div>
             
-            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
-                <Settings className="w-8 h-8 text-blue-600" />
+            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 opacity-5">
+                <Image src="/hero-section.png" alt="Supply Chain" fill className="object-cover" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Supply Chain Management</h3>
-              <p className="text-gray-600 mb-6">End-to-end supply chain visibility with predictive analytics, risk management, and optimization tools.</p>
-              <Link href="/supply-chain" className="text-blue-600 hover:text-blue-700 font-medium flex items-center">
-                Learn more <ChevronRight className="w-4 h-4 ml-1" />
-              </Link>
+              <div className="relative">
+                <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                  <Settings className="w-8 h-8 text-blue-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-4">Supply Chain Management</h3>
+                <p className="text-gray-600 mb-6">End-to-end supply chain visibility with predictive analytics, risk management, and optimization tools.</p>
+                <Link href="/supply-chain" className="text-blue-600 hover:text-blue-700 font-medium flex items-center">
+                  Learn more <ChevronRight className="w-4 h-4 ml-1" />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
