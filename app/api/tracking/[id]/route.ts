@@ -86,6 +86,54 @@ let shipments = [
         description: 'Container arrived at Hamburg Port'
       }
     ]
+  },
+  {
+    id: 'Flip859657',
+    status: 'in_transit',
+    origin: 'Singapore, Singapore',
+    destination: 'Seattle, USA',
+    carrier: 'CMA CGM',
+    eta: '2024-12-18',
+    currentLocation: 'South China Sea',
+    progress: 45,
+    events: [
+      {
+        timestamp: '2024-12-12T08:15:00Z',
+        location: 'Singapore Port',
+        status: 'Departed from origin',
+        description: 'Shipment departed from Singapore Port'
+      },
+      {
+        timestamp: '2024-12-11T16:30:00Z',
+        location: 'Singapore Port',
+        status: 'Loaded onto vessel',
+        description: 'Container loaded onto vessel CMA CGM Marco Polo'
+      },
+      {
+        timestamp: '2024-12-10T12:45:00Z',
+        location: 'Singapore Port',
+        status: 'Arrived at port',
+        description: 'Container arrived at Singapore Port'
+      }
+    ]
+  },
+  {
+    id: 'FLIP789456123',
+    status: 'pending',
+    origin: 'Dubai, UAE',
+    destination: 'Vancouver, Canada',
+    carrier: 'Evergreen',
+    eta: '2024-12-25',
+    currentLocation: 'Dubai Port',
+    progress: 10,
+    events: [
+      {
+        timestamp: '2024-12-13T09:20:00Z',
+        location: 'Dubai Port',
+        status: 'Arrived at port',
+        description: 'Container arrived at Dubai Port'
+      }
+    ]
   }
 ]
 
