@@ -125,7 +125,7 @@ export default function HomePage() {
       <section className="relative bg-gradient-to-br from-blue-50 to-indigo-100 overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-600/10"></div>
-        <div className="absolute top-0 right-0 w-1/3 h-full">
+        <div className="absolute top-0 right-0 w-full h-full">
           <Image
             src="/hero-section.png"
             alt="Global Logistics"
