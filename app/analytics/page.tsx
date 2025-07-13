@@ -95,7 +95,7 @@ export default function AnalyticsPage() {
   // Update chart data when period changes
   useEffect(() => {
     setChartData(periodData[selectedPeriod as keyof typeof periodData] || [])
-  }, [selectedPeriod])
+  }, [selectedPeriod, periodData])
 
   const renderChart = () => {
     const maxValue = Math.max(...chartData.map(d => d[selectedMetric as keyof typeof d] as number))
