@@ -18,6 +18,11 @@ export const metadata: Metadata = {
     telephone: false,
   },
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
   openGraph: {
     title: 'FlipRoutes - Global Logistics Platform',
     description: 'Streamline your global logistics with FlipRoutes. Track shipments, manage customs, and optimize your supply chain.',
@@ -25,10 +30,10 @@ export const metadata: Metadata = {
     siteName: 'FlipRoutes',
     images: [
       {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'FlipRoutes - Global Logistics Platform',
+        url: '/logo-large.svg',
+        width: 200,
+        height: 60,
+        alt: 'FlipRoutes Logo',
       },
     ],
     locale: 'en_US',
@@ -38,7 +43,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'FlipRoutes - Global Logistics Platform',
     description: 'Streamline your global logistics with FlipRoutes. Track shipments, manage customs, and optimize your supply chain.',
-    images: ['/og-image.jpg'],
+    images: ['/logo-large.svg'],
   },
   robots: {
     index: true,
@@ -63,6 +68,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+      </head>
       <body className={inter.className}>
         <AuthProvider>
           {children}

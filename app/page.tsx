@@ -17,8 +17,14 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <Link href="/" className="text-2xl font-bold text-blue-600">
-                FlipRoutes
+              <Link href="/" className="flex items-center">
+                <Image
+                  src="/logo.svg"
+                  alt="FlipRoutes"
+                  width={120}
+                  height={40}
+                  className="h-8 w-auto"
+                />
               </Link>
             </div>
             
@@ -587,7 +593,15 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             <div>
-              <h3 className="text-2xl font-bold mb-4">FlipRoutes</h3>
+              <div className="mb-4">
+                <Image
+                  src="/logo.svg"
+                  alt="FlipRoutes"
+                  width={120}
+                  height={40}
+                  className="h-8 w-auto filter brightness-0 invert"
+                />
+              </div>
               <p className="text-gray-400 mb-6">
                 The platform for global trade. We connect and digitize the world's supply chains.
               </p>
