@@ -3,11 +3,6 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export async function middleware(req: NextRequest) {
-  // Temporarily disable middleware to test routing
-  return NextResponse.next()
-  
-  // Original middleware code commented out for debugging
-  /*
   const res = NextResponse.next()
   const supabase = createMiddlewareClient({ req, res })
 
@@ -72,7 +67,6 @@ export async function middleware(req: NextRequest) {
   }
 
   return res
-  */
 }
 
 export const config = {
