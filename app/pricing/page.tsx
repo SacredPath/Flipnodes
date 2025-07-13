@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { CheckCircle, Star, ArrowRight, Zap, Shield, Globe, BarChart3, Users, Truck, Database, Lock, Headphones, FileText, Settings, Bell, Smartphone, Monitor, Tablet, CreditCard, DollarSign, TrendingUp } from 'lucide-react'
 import { useState } from 'react'
+import Navigation from '@/components/Navigation'
 
 export default function PricingPage() {
   const [selectedPlan, setSelectedPlan] = useState('pro')
@@ -97,6 +98,8 @@ export default function PricingPage() {
 
   return (
     <div className="bg-white">
+      <Navigation />
+      
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20">
         <div className="container mx-auto px-4 text-center">

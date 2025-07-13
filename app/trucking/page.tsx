@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
 import { CheckCircle, ArrowRight, Clock, DollarSign, MapPin, Truck, Globe, Shield, Zap, Users, BarChart3, FileText, Package, Star, ChevronRight, Phone, Mail, MessageSquare, Route } from 'lucide-react'
 import { useState } from 'react'
+import Navigation from '@/components/Navigation'
 
 export default function TruckingPage() {
   const [selectedService, setSelectedService] = useState('ftl')
@@ -50,6 +51,8 @@ export default function TruckingPage() {
 
   return (
     <div className="bg-white">
+      <Navigation />
+      
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-blue-50 to-indigo-100 py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-600/10"></div>

@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { shipmentApi, trackingApi } from '@/lib/api'
 import type { Shipment, TrackingEvent } from '@/lib/supabase'
+import Navigation from '@/components/Navigation'
 
 export default function TrackPage() {
   const [trackingNumber, setTrackingNumber] = useState('')
@@ -85,6 +86,8 @@ export default function TrackPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
