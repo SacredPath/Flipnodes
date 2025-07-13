@@ -2,9 +2,44 @@ import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
+// Simple rate limiting store (in production, use Redis or similar)
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>()
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now()
+  const windowMs = 15 * 60 * 1000 // 15 minutes
+  const maxRequests = 100 // Max requests per window
+
+  const record = rateLimitStore.get(ip)
+  if (!record || now > record.resetTime) {
+    rateLimitStore.set(ip, { count: 1, resetTime: now + windowMs })
+    return true
+  }
+
+  if (record.count >= maxRequests) {
+    return false
+  }
+
+  record.count++
+  return true
+}
+
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
   const supabase = createMiddlewareClient({ req, res })
+
+  // Rate limiting
+  const ip = req.ip || req.headers.get('x-forwarded-for') || 'unknown'
+  if (!checkRateLimit(ip)) {
+    return new NextResponse('Too Many Requests', { status: 429 })
+  }
+
+  // Security headers
+  res.headers.set('X-Frame-Options', 'DENY')
+  res.headers.set('X-Content-Type-Options', 'nosniff')
+  res.headers.set('Referrer-Policy', 'origin-when-cross-origin')
+  res.headers.set('X-XSS-Protection', '1; mode=block')
+  res.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains')
 
   // Refresh session if expired - required for Server Components
   const {
@@ -25,6 +60,13 @@ export async function middleware(req: NextRequest) {
     '/admin'
   ]
 
+  // Define sensitive API routes
+  const sensitiveApiRoutes = [
+    '/api/admin',
+    '/api/shipments',
+    '/api/users'
+  ]
+
   const { pathname } = req.nextUrl
 
   // Check if the current path is a protected route
@@ -33,6 +75,10 @@ export async function middleware(req: NextRequest) {
   )
 
   const isAdminRoute = adminRoutes.some(route => 
+    pathname.startsWith(route)
+  )
+
+  const isSensitiveApiRoute = sensitiveApiRoutes.some(route =>
     pathname.startsWith(route)
   )
 
@@ -61,8 +107,18 @@ export async function middleware(req: NextRequest) {
     }
   }
 
+  // If accessing sensitive API routes, require authentication
+  if (isSensitiveApiRoute && !session) {
+    return new NextResponse('Unauthorized', { status: 401 })
+  }
+
   // If user is authenticated and trying to access login page, redirect to dashboard
   if (session && pathname === '/login') {
+    return NextResponse.redirect(new URL('/dashboard', req.url))
+  }
+
+  // If user is authenticated and trying to access signup page, redirect to dashboard
+  if (session && pathname === '/signup') {
     return NextResponse.redirect(new URL('/dashboard', req.url))
   }
 

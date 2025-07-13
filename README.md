@@ -1,6 +1,6 @@
-# FlipRoutes - Smart Shipment Tracking Platform
+# Fliproute - Smart Shipment Tracking Platform
 
-FlipRoutes is a modern, intelligent logistics platform that provides real-time shipment tracking, predictive analytics, and seamless delivery management for businesses of all sizes.
+Fliproute is a modern, intelligent logistics platform that provides real-time shipment tracking, predictive analytics, and seamless delivery management for businesses of all sizes.
 
 ## 🚀 Features
 
@@ -24,7 +24,7 @@ FlipRoutes is a modern, intelligent logistics platform that provides real-time s
 ## 📁 Project Structure
 
 ```
-fliproutes/
+fliproute/
 ├── app/                    # Next.js App Router
 │   ├── layout.tsx         # Root layout
 │   ├── page.tsx           # Homepage
@@ -54,8 +54,8 @@ fliproutes/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/fliproutes.git
-   cd fliproutes
+   git clone https://github.com/yourusername/fliproute.git
+   cd fliproute
    ```
 
 2. **Install dependencies**
@@ -76,6 +76,7 @@ fliproutes/
    ```env
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   NEXT_PUBLIC_APP_URL=https://flipnodes.com
    ```
 
 4. **Set up Supabase**
@@ -119,15 +120,28 @@ CREATE TABLE users (
 CREATE TABLE shipments (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   tracking_number TEXT UNIQUE NOT NULL,
-  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'in_transit', 'delivered', 'failed')),
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'in_transit', 'at_port', 'delivered', 'failed')),
   origin TEXT NOT NULL,
   destination TEXT NOT NULL,
-  customer_id UUID REFERENCES users(id),
+  eta DATE,
   carrier TEXT,
+  container TEXT,
+  vessel TEXT,
+  voyage TEXT,
   weight DECIMAL,
-  dimensions JSONB,
-  estimated_delivery TIMESTAMP WITH TIME ZONE,
-  actual_delivery TIMESTAMP WITH TIME ZONE,
+  volume DECIMAL,
+  value DECIMAL,
+  cargo_type TEXT,
+  special_instructions TEXT,
+  progress INTEGER DEFAULT 0,
+  customer_id UUID REFERENCES users(id),
+  shipper_name TEXT,
+  consignee_name TEXT,
+  port_of_loading TEXT,
+  port_of_discharge TEXT,
+  bill_of_lading TEXT,
+  customs_status TEXT,
+  insurance TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -138,106 +152,42 @@ CREATE TABLE shipments (
 CREATE TABLE tracking_events (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   shipment_id UUID REFERENCES shipments(id) ON DELETE CASCADE,
-  event_type TEXT NOT NULL CHECK (event_type IN ('pickup', 'in_transit', 'out_for_delivery', 'delivered', 'failed')),
-  location TEXT NOT NULL,
+  event_type TEXT NOT NULL,
+  location TEXT,
+  timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   description TEXT,
-  timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  icon TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 ```
 
-### Row Level Security (RLS)
+## 🌐 Domain Configuration
 
-Enable RLS and create policies for data security:
+This application is hosted on **flipnodes.com** but branded as **Fliproute**. 
 
-```sql
--- Enable RLS
-ALTER TABLE users ENABLE ROW LEVEL SECURITY;
-ALTER TABLE shipments ENABLE ROW LEVEL SECURITY;
-ALTER TABLE tracking_events ENABLE ROW LEVEL SECURITY;
-
--- Users can only see their own data
-CREATE POLICY "Users can view own profile" ON users
-  FOR SELECT USING (auth.uid() = id);
-
--- Customers can only see their shipments
-CREATE POLICY "Customers can view own shipments" ON shipments
-  FOR SELECT USING (auth.uid() = customer_id);
-
--- Admins can see all shipments
-CREATE POLICY "Admins can view all shipments" ON shipments
-  FOR ALL USING (
-    EXISTS (
-      SELECT 1 FROM users 
-      WHERE users.id = auth.uid() 
-      AND users.role = 'admin'
-    )
-  );
+### Environment Variables for Production
+```env
+NEXT_PUBLIC_APP_URL=https://flipnodes.com
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-## 🧪 Testing
+## 🔒 Security
 
-```bash
-# Run tests
-npm run test
+See [README-SECURITY.md](./README-SECURITY.md) for comprehensive security documentation.
 
-# Run tests in watch mode
-npm run test:watch
+## 📝 License
 
-# Run tests with coverage
-npm run test:coverage
-```
-
-## 🏗️ Building for Production
-
-```bash
-# Build the application
-npm run build
-
-# Start the production server
-npm start
-```
-
-## 📦 Deployment
-
-### Vercel (Recommended)
-
-1. Connect your GitHub repository to Vercel
-2. Add environment variables in Vercel dashboard
-3. Deploy automatically on push to main branch
-
-### Other Platforms
-
-The app can be deployed to any platform that supports Next.js:
-- Netlify
-- Railway
-- DigitalOcean App Platform
-- AWS Amplify
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
+## 📞 Support
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-- **Documentation**: [docs.fliproutes.com](https://docs.fliproutes.com)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/fliproutes/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/fliproutes/discussions)
-
-## 🙏 Acknowledgments
-
-- [Next.js](https://nextjs.org/) for the amazing React framework
-- [Supabase](https://supabase.com/) for the backend infrastructure
-- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework
-- [Lucide](https://lucide.dev/) for the beautiful icons
-
----
-
-Made with ❤️ by the FlipRoutes team
+For support, email support@flipnodes.com or visit [https://flipnodes.com](https://flipnodes.com)

@@ -165,7 +165,10 @@ export default function TruckingPage() {
                 </ul>
                 
                 <Button
-                  onClick={() => setSelectedService(service.id)}
+                  onClick={() => {
+                    setSelectedService(service.id);
+                    document.getElementById('quote')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                   className={`w-full ${
                     selectedService === service.id
                       ? 'bg-blue-600 hover:bg-blue-700 text-white'

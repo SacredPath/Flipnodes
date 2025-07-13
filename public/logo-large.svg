@@ -1,1 +1,25 @@
- 
+<svg width="400" height="120" viewBox="0 0 400 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background rectangle for the logo -->
+  <rect width="400" height="120" rx="16" fill="#1E40AF"/>
+  
+  <!-- Ship/Container icon -->
+  <g transform="translate(30, 30)">
+    <!-- Container body -->
+    <rect x="0" y="16" width="40" height="24" fill="white" rx="2"/>
+    <!-- Container top -->
+    <rect x="4" y="12" width="32" height="8" fill="white" rx="2"/>
+    <!-- Container lines -->
+    <rect x="8" y="20" width="24" height="2" fill="#1E40AF"/>
+    <rect x="8" y="24" width="24" height="2" fill="#1E40AF"/>
+    <rect x="8" y="28" width="16" height="2" fill="#1E40AF"/>
+    <!-- Arrow indicating movement -->
+    <path d="M 50 28 L 60 28 L 56 24 L 60 28 L 56 32 Z" fill="white"/>
+  </g>
+  
+  <!-- Text "FlipRoutes" -->
+  <text x="100" y="50" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="white">Flip</text>
+  <text x="100" y="84" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="white">Routes</text>
+  
+  <!-- Tagline -->
+  <text x="100" y="110" font-family="Arial, sans-serif" font-size="16" fill="#93C5FD">Global Logistics Platform</text>
+</svg> 

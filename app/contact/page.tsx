@@ -17,6 +17,8 @@ export default function ContactPage() {
     message: ''
   })
   const [selectedTopic, setSelectedTopic] = useState('general')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>("idle");
+  const [error, setError] = useState<string | null>(null);
 
   const topics = [
     { id: 'general', name: 'General Inquiry' },
@@ -32,21 +34,21 @@ export default function ContactPage() {
       address: '123 Market Street, Suite 100',
       state: 'CA 94105',
       phone: '+1 (415) 555-0123',
-      email: 'sf@fliproutes.com'
+      email: 'sf@flipnodes.com'
     },
     {
       city: 'New York',
       address: '456 Broadway, Floor 15',
       state: 'NY 10013',
       phone: '+1 (212) 555-0456',
-      email: 'nyc@fliproutes.com'
+      email: 'nyc@flipnodes.com'
     },
     {
       city: 'London',
       address: '789 Oxford Street',
       state: 'W1D 1BS, UK',
       phone: '+44 20 7946 0958',
-      email: 'london@fliproutes.com'
+      email: 'london@flipnodes.com'
     }
   ]
 
@@ -58,18 +60,36 @@ export default function ContactPage() {
     }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    alert('Thank you for your message! We\'ll get back to you within 24 hours.')
-    setFormData({
-      name: '',
-      email: '',
-      company: '',
-      phone: '',
-      subject: '',
-      message: ''
-    })
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+    setError(null);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message +
+            (formData.company ? `\nCompany: ${formData.company}` : '') +
+            (formData.phone ? `\nPhone: ${formData.phone}` : '') +
+            (formData.subject ? `\nTopic: ${formData.subject}` : ''),
+        }),
+      });
+      if (res.ok) {
+        setStatus('success');
+        setFormData({ name: '', email: '', company: '', phone: '', subject: '', message: '' });
+      } else {
+        const data = await res.json();
+        setError(data.error || 'Failed to send message.');
+        setStatus('error');
+      }
+    } catch (err) {
+      setError('Failed to send message.');
+      setStatus('error');
+    }
+  };
 
   return (
     <div className="bg-white">
@@ -229,6 +249,12 @@ export default function ContactPage() {
                     Send Message
                   </Button>
                 </form>
+                {status === 'success' && (
+                  <div className="mb-4 p-4 bg-green-100 text-green-800 rounded">Thank you for your message! We'll get back to you within 24 hours.</div>
+                )}
+                {status === 'error' && (
+                  <div className="mb-4 p-4 bg-red-100 text-red-800 rounded">{error}</div>
+                )}
               </div>
               
               <div className="space-y-8">

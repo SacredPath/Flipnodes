@@ -4,12 +4,38 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
 import { CheckCircle, ArrowRight, Clock, DollarSign, MapPin, BarChart3, Globe, Shield, Zap, Users, TrendingUp, FileText, Truck, Package, Star, ChevronRight, Phone, Mail, MessageSquare, PieChart, Activity, Target, Award } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Navigation from '@/components/Navigation'
 
 export default function AnalyticsPage() {
   const [selectedPeriod, setSelectedPeriod] = useState('30d')
   const [selectedMetric, setSelectedMetric] = useState('shipments')
+  const [isLoading, setIsLoading] = useState(false)
+  const [chartData, setChartData] = useState<any[]>([])
+
+  // Sample data for different periods
+  const periodData = {
+    '7d': [
+      { day: 'Mon', shipments: 45, revenue: 12500, onTime: 98 },
+      { day: 'Tue', shipments: 52, revenue: 14200, onTime: 96 },
+      { day: 'Wed', shipments: 48, revenue: 13100, onTime: 97 },
+      { day: 'Thu', shipments: 61, revenue: 16800, onTime: 95 },
+      { day: 'Fri', shipments: 55, revenue: 15200, onTime: 99 },
+      { day: 'Sat', shipments: 38, revenue: 10400, onTime: 98 },
+      { day: 'Sun', shipments: 42, revenue: 11800, onTime: 97 }
+    ],
+    '30d': [
+      { day: 'Week 1', shipments: 320, revenue: 89000, onTime: 96 },
+      { day: 'Week 2', shipments: 345, revenue: 95000, onTime: 97 },
+      { day: 'Week 3', shipments: 310, revenue: 86000, onTime: 95 },
+      { day: 'Week 4', shipments: 372, revenue: 102000, onTime: 98 }
+    ],
+    '90d': [
+      { day: 'Month 1', shipments: 1250, revenue: 340000, onTime: 96 },
+      { day: 'Month 2', shipments: 1380, revenue: 375000, onTime: 97 },
+      { day: 'Month 3', shipments: 1420, revenue: 385000, onTime: 98 }
+    ]
+  }
 
   const metrics = [
     {
@@ -66,6 +92,43 @@ export default function AnalyticsPage() {
     }
   ]
 
+  // Update chart data when period changes
+  useEffect(() => {
+    setChartData(periodData[selectedPeriod as keyof typeof periodData] || [])
+  }, [selectedPeriod])
+
+  const renderChart = () => {
+    const maxValue = Math.max(...chartData.map(d => d[selectedMetric as keyof typeof d] as number))
+    
+    return (
+      <div className="h-64 flex items-end justify-between space-x-2">
+        {chartData.map((data, index) => {
+          const value = data[selectedMetric as keyof typeof data] as number
+          const height = (value / maxValue) * 100
+          return (
+            <div key={index} className="flex-1 flex flex-col items-center">
+              <div 
+                className="w-full bg-gradient-to-t from-blue-600 to-blue-400 rounded-t transition-all duration-300 hover:from-blue-700 hover:to-blue-500"
+                style={{ height: `${height}%` }}
+              />
+              <div className="text-xs text-gray-600 mt-2">{data.day}</div>
+              <div className="text-xs font-medium text-gray-900">{value}</div>
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
+  const handleGenerateReport = (reportType: string) => {
+    setIsLoading(true)
+    // Simulate report generation
+    setTimeout(() => {
+      alert(`${reportType} report generated successfully!`)
+      setIsLoading(false)
+    }, 2000)
+  }
+
   return (
     <div className="bg-white">
       <Navigation />
@@ -75,8 +138,8 @@ export default function AnalyticsPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-600/10"></div>
         <div className="absolute top-0 right-0 w-full h-full">
           <Image
-            src="/hero-section.png"
-            alt="Analytics & Insights"
+            src="/analytics-view.svg"
+            alt="Analytics View"
             fill
             className="object-cover opacity-20"
           />
@@ -117,7 +180,7 @@ export default function AnalyticsPage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {metrics.map((metric, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 shadow-sm border">
+              <div key={index} className="bg-white rounded-xl p-6 shadow-sm border hover:shadow-md transition-shadow">
                 <div className="flex items-center justify-between mb-4">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                     <metric.icon className="w-6 h-6 text-blue-600" />
@@ -150,13 +213,13 @@ export default function AnalyticsPage() {
             {/* Shipment Trends */}
             <div className="lg:col-span-2 bg-white rounded-2xl p-8 shadow-sm">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-semibold">Shipment Trends</h3>
+                <h3 className="text-xl font-semibold">Performance Trends</h3>
                 <div className="flex space-x-2">
                   {['7d', '30d', '90d'].map((period) => (
                     <button
                       key={period}
                       onClick={() => setSelectedPeriod(period)}
-                      className={`px-3 py-1 rounded-lg text-sm font-medium ${
+                      className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
                         selectedPeriod === period
                           ? 'bg-blue-600 text-white'
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -168,13 +231,37 @@ export default function AnalyticsPage() {
                 </div>
               </div>
               
-              {/* Chart Placeholder */}
-              <div className="h-64 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <BarChart3 className="w-16 h-16 text-blue-400 mx-auto mb-4" />
-                  <p className="text-gray-600">Interactive chart showing shipment trends</p>
-                  <p className="text-sm text-gray-500 mt-2">Real-time data visualization</p>
+              <div className="mb-6">
+                <div className="flex space-x-4 mb-4">
+                  {['shipments', 'revenue', 'onTime'].map((metric) => (
+                    <button
+                      key={metric}
+                      onClick={() => setSelectedMetric(metric)}
+                      className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                        selectedMetric === metric
+                          ? 'bg-blue-100 text-blue-700'
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      }`}
+                    >
+                      {metric === 'shipments' ? 'Shipments' : 
+                       metric === 'revenue' ? 'Revenue' : 'On-Time %'}
+                    </button>
+                  ))}
                 </div>
+              </div>
+              
+              {/* Interactive Chart */}
+              <div className="h-64 bg-gray-50 rounded-lg p-4">
+                {chartData.length > 0 ? (
+                  renderChart()
+                ) : (
+                  <div className="h-full flex items-center justify-center">
+                    <div className="text-center">
+                      <BarChart3 className="w-16 h-16 text-blue-400 mx-auto mb-4" />
+                      <p className="text-gray-600">Loading chart data...</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
             
@@ -183,7 +270,7 @@ export default function AnalyticsPage() {
               <h3 className="text-xl font-semibold mb-6">Quick Insights</h3>
               <div className="space-y-6">
                 {insights.map((insight, index) => (
-                  <div key={index} className="border-l-4 border-blue-500 pl-4">
+                  <div key={index} className="border-l-4 border-blue-500 pl-4 hover:border-blue-600 transition-colors">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium text-blue-600">{insight.category}</span>
                       <span className={`text-lg font-bold ${
@@ -259,7 +346,7 @@ export default function AnalyticsPage() {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl p-8 shadow-sm">
+            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow">
               <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
                 <FileText className="w-8 h-8 text-blue-600" />
               </div>
@@ -279,10 +366,16 @@ export default function AnalyticsPage() {
                   <span className="text-sm text-gray-600">Performance metrics</span>
                 </li>
               </ul>
-              <Button className="w-full">Generate Report</Button>
+              <Button 
+                className="w-full" 
+                onClick={() => handleGenerateReport('Monthly')}
+                disabled={isLoading}
+              >
+                {isLoading ? 'Generating...' : 'Generate Report'}
+              </Button>
             </div>
             
-            <div className="bg-white rounded-xl p-8 shadow-sm">
+            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow">
               <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
                 <Award className="w-8 h-8 text-blue-600" />
               </div>
@@ -302,10 +395,16 @@ export default function AnalyticsPage() {
                   <span className="text-sm text-gray-600">Recommendations</span>
                 </li>
               </ul>
-              <Button className="w-full">Generate Report</Button>
+              <Button 
+                className="w-full" 
+                onClick={() => handleGenerateReport('Executive')}
+                disabled={isLoading}
+              >
+                {isLoading ? 'Generating...' : 'Generate Report'}
+              </Button>
             </div>
             
-            <div className="bg-white rounded-xl p-8 shadow-sm">
+            <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow">
               <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
                 <BarChart3 className="w-8 h-8 text-blue-600" />
               </div>
@@ -325,7 +424,13 @@ export default function AnalyticsPage() {
                   <span className="text-sm text-gray-600">Export capabilities</span>
                 </li>
               </ul>
-              <Button className="w-full">Create Dashboard</Button>
+              <Button 
+                className="w-full" 
+                onClick={() => handleGenerateReport('Custom')}
+                disabled={isLoading}
+              >
+                {isLoading ? 'Creating...' : 'Create Dashboard'}
+              </Button>
             </div>
           </div>
         </div>

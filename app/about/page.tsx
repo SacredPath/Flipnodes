@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
-import { CheckCircle, ArrowRight, Clock, DollarSign, MapPin, Users, Globe, Shield, Zap, BarChart3, FileText, Truck, Package, Star, ChevronRight, Phone, Mail, MessageSquare, Award, Target, Heart, Lightbulb, Users as TeamIcon } from 'lucide-react'
+import { CheckCircle, ArrowRight, Clock, DollarSign, MapPin, Users, Globe, Shield, Zap, BarChart3, FileText, Truck, Package, Star, ChevronRight, Phone, Mail, MessageSquare, Award, Target, Heart, Lightbulb, Eye, Users as TeamIcon } from 'lucide-react'
 import Navigation from '@/components/Navigation'
 
 export default function AboutPage() {
@@ -86,7 +86,7 @@ export default function AboutPage() {
               Our Story
             </div>
             <h1 className="text-5xl font-bold text-gray-900 mb-6">
-              About FlipRoutes
+              About Fliproute
             </h1>
             <p className="text-xl text-gray-700 mb-8 max-w-3xl mx-auto">
               We're revolutionizing global logistics through technology, transparency, and trust. 
@@ -139,7 +139,7 @@ export default function AboutPage() {
               <div>
                 <h3 className="text-2xl font-semibold mb-6">The Beginning</h3>
                 <p className="text-gray-700 mb-6">
-                  FlipRoutes was founded in 2020 by a team of logistics professionals who were frustrated 
+                  Fliproute was founded in 2020 by a team of logistics professionals who were frustrated 
                   with the complexity and lack of transparency in global shipping. We saw an opportunity 
                   to leverage technology to solve real problems in the industry.
                 </p>
@@ -223,7 +223,7 @@ export default function AboutPage() {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">Meet Our Team</h2>
             <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-              The passionate professionals behind FlipRoutes
+              The passionate professionals behind Fliproute
             </p>
           </div>
           

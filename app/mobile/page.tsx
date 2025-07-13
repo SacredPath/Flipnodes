@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
-import { CheckCircle, ArrowRight, Clock, DollarSign, MapPin, Smartphone, Globe, Shield, Zap, Users, BarChart3, FileText, Truck, Package, Star, ChevronRight, Phone, Mail, MessageSquare, Download, Bell, Eye, Navigation, Camera } from 'lucide-react'
+import { CheckCircle, ArrowRight, Clock, DollarSign, MapPin, Smartphone, Globe, Shield, Zap, Users, BarChart3, FileText, Truck, Package, Star, ChevronRight, Phone, Mail, MessageSquare, Download, Bell, Eye, Navigation as NavigationIcon, Camera } from 'lucide-react'
 import { useState } from 'react'
 import Navigation from '@/components/Navigation'
 
@@ -34,7 +34,7 @@ export default function MobilePage() {
     {
       title: 'Route Optimization',
       description: 'Get optimized routes and real-time navigation',
-      icon: Navigation
+      icon: NavigationIcon
     },
     {
       title: 'Analytics Dashboard',
@@ -73,8 +73,8 @@ export default function MobilePage() {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-600/10"></div>
         <div className="absolute top-0 right-0 w-full h-full">
           <Image
-            src="/hero-section.png"
-            alt="Mobile App"
+            src="/document-scanner.svg"
+            alt="Document Scanner"
             fill
             className="object-cover opacity-20"
           />

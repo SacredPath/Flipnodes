@@ -6,34 +6,34 @@ import { AuthProvider } from '@/contexts/AuthContext'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'FlipRoutes - Global Logistics Platform',
-  description: 'Streamline your global logistics with FlipRoutes. Track shipments, manage customs, and optimize your supply chain.',
+  title: 'Fliproute - Global Logistics Platform',
+  description: 'Streamline your global logistics with Fliproute. Track shipments, manage customs, and optimize your supply chain.',
   keywords: 'logistics, shipping, freight, customs, supply chain, tracking',
-  authors: [{ name: 'FlipRoutes Team' }],
-  creator: 'FlipRoutes',
-  publisher: 'FlipRoutes',
+  authors: [{ name: 'Fliproute Team' }],
+  creator: 'Fliproute',
+  publisher: 'Fliproute',
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://flipnodes.com'),
   icons: {
     icon: '/favicon.svg',
     shortcut: '/favicon.svg',
     apple: '/favicon.svg',
   },
   openGraph: {
-    title: 'FlipRoutes - Global Logistics Platform',
-    description: 'Streamline your global logistics with FlipRoutes. Track shipments, manage customs, and optimize your supply chain.',
+    title: 'Fliproute - Global Logistics Platform',
+    description: 'Streamline your global logistics with Fliproute. Track shipments, manage customs, and optimize your supply chain.',
     url: '/',
-    siteName: 'FlipRoutes',
+    siteName: 'Fliproute',
     images: [
       {
         url: '/logo-large.svg',
         width: 200,
         height: 60,
-        alt: 'FlipRoutes Logo',
+        alt: 'Fliproute Logo',
       },
     ],
     locale: 'en_US',
@@ -41,8 +41,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'FlipRoutes - Global Logistics Platform',
-    description: 'Streamline your global logistics with FlipRoutes. Track shipments, manage customs, and optimize your supply chain.',
+    title: 'Fliproute - Global Logistics Platform',
+    description: 'Streamline your global logistics with Fliproute. Track shipments, manage customs, and optimize your supply chain.',
     images: ['/logo-large.svg'],
   },
   robots: {

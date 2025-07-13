@@ -62,4 +62,55 @@ export interface User {
   role: 'customer' | 'admin'
   created_at: string
   updated_at: string
+}
+
+// Form submission types
+export interface ContactForm {
+  id: string
+  name: string
+  email: string
+  company?: string
+  phone?: string
+  subject: string
+  message: string
+  created_at: string
+  status: 'new' | 'contacted' | 'resolved'
+}
+
+export interface QuoteRequest {
+  id: string
+  service_type: 'trucking' | 'air_freight' | 'ocean_freight' | 'customs' | 'warehousing'
+  name: string
+  email: string
+  company?: string
+  phone?: string
+  origin: string
+  destination: string
+  cargo_type?: string
+  weight?: string
+  dimensions?: string
+  volume?: string
+  value?: string
+  container_type?: string
+  special_requirements?: string
+  created_at: string
+  status: 'pending' | 'quoted' | 'accepted' | 'rejected'
+  quote_amount?: number
+  quote_notes?: string
+}
+
+export interface DemoRequest {
+  id: string
+  name: string
+  email: string
+  company: string
+  phone?: string
+  company_size: string
+  use_case: string
+  preferred_time: string
+  additional_info?: string
+  created_at: string
+  status: 'pending' | 'scheduled' | 'completed' | 'cancelled'
+  demo_date?: string
+  demo_notes?: string
 } 

@@ -35,7 +35,7 @@ export default function LoginPage() {
             </svg>
           </div>
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-            Welcome to FlipRoutes
+            Welcome to Fliproute
           </h2>
           <p className="mt-2 text-sm text-gray-600">
             Sign in to your account to continue
@@ -114,7 +114,7 @@ export default function LoginPage() {
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
+                <a href="/forgot-password" className="font-medium text-blue-600 hover:text-blue-500">
                   Forgot your password?
                 </a>
               </div>
@@ -133,7 +133,7 @@ export default function LoginPage() {
             <div className="text-center">
               <p className="text-sm text-gray-600">
                 Don't have an account?{' '}
-                <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
+                <a href="/signup" className="font-medium text-blue-600 hover:text-blue-500">
                   Sign up
                 </a>
               </p>
