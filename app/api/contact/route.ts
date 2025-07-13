@@ -56,7 +56,7 @@ export async function POST(req: Request) {
           from: 'Contact Form <noreply@flipnodes.com>',
           to: process.env.CONTACT_EMAIL || 'your@email.com',
           subject: `New Contact Form Submission from ${sanitizedData.name}`,
-          reply_to: sanitizedData.email,
+          replyTo: sanitizedData.email,
           text: `Name: ${sanitizedData.name}\nEmail: ${sanitizedData.email}\nCompany: ${sanitizedData.company || 'N/A'}\nPhone: ${sanitizedData.phone || 'N/A'}\nSubject: ${sanitizedData.subject}\nMessage: ${sanitizedData.message}`,
         });
 

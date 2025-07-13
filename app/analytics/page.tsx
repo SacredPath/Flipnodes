@@ -3,58 +3,34 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
-import { CheckCircle, ArrowRight, Clock, DollarSign, MapPin, BarChart3, Globe, Shield, Zap, Users, TrendingUp, FileText, Truck, Package, Star, ChevronRight, Phone, Mail, MessageSquare, PieChart, Activity, Target, Award } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { CheckCircle, ArrowRight, Clock, DollarSign, MapPin, Users, Globe, Shield, Zap, BarChart3, FileText, Truck, Package, Star, ChevronRight, Phone, Mail, MessageSquare, TrendingUp, TrendingDown } from 'lucide-react'
+import { useState, useEffect, useMemo } from 'react'
 import Navigation from '@/components/Navigation'
 
 export default function AnalyticsPage() {
-  const [selectedPeriod, setSelectedPeriod] = useState('30d')
+  const [selectedPeriod, setSelectedPeriod] = useState('7d')
   const [selectedMetric, setSelectedMetric] = useState('shipments')
-  const [isLoading, setIsLoading] = useState(false)
   const [chartData, setChartData] = useState<any[]>([])
-
-  // Sample data for different periods
-  const periodData = {
-    '7d': [
-      { day: 'Mon', shipments: 45, revenue: 12500, onTime: 98 },
-      { day: 'Tue', shipments: 52, revenue: 14200, onTime: 96 },
-      { day: 'Wed', shipments: 48, revenue: 13100, onTime: 97 },
-      { day: 'Thu', shipments: 61, revenue: 16800, onTime: 95 },
-      { day: 'Fri', shipments: 55, revenue: 15200, onTime: 99 },
-      { day: 'Sat', shipments: 38, revenue: 10400, onTime: 98 },
-      { day: 'Sun', shipments: 42, revenue: 11800, onTime: 97 }
-    ],
-    '30d': [
-      { day: 'Week 1', shipments: 320, revenue: 89000, onTime: 96 },
-      { day: 'Week 2', shipments: 345, revenue: 95000, onTime: 97 },
-      { day: 'Week 3', shipments: 310, revenue: 86000, onTime: 95 },
-      { day: 'Week 4', shipments: 372, revenue: 102000, onTime: 98 }
-    ],
-    '90d': [
-      { day: 'Month 1', shipments: 1250, revenue: 340000, onTime: 96 },
-      { day: 'Month 2', shipments: 1380, revenue: 375000, onTime: 97 },
-      { day: 'Month 3', shipments: 1420, revenue: 385000, onTime: 98 }
-    ]
-  }
+  const [isLoading, setIsLoading] = useState(false)
 
   const metrics = [
     {
       name: 'Total Shipments',
-      value: '2,847',
+      value: '1,247',
       change: '+12.5%',
       changeType: 'positive',
       icon: Package
     },
     {
       name: 'Revenue',
-      value: '$1.2M',
-      change: '+8.3%',
+      value: '$2.4M',
+      change: '+8.2%',
       changeType: 'positive',
       icon: DollarSign
     },
     {
       name: 'On-Time Delivery',
-      value: '96.8%',
+      value: '98.7%',
       change: '+2.1%',
       changeType: 'positive',
       icon: Clock
@@ -62,7 +38,7 @@ export default function AnalyticsPage() {
     {
       name: 'Customer Satisfaction',
       value: '4.9/5',
-      change: '+0.2',
+      change: '+0.3',
       changeType: 'positive',
       icon: Star
     }
@@ -70,27 +46,51 @@ export default function AnalyticsPage() {
 
   const insights = [
     {
-      title: 'Peak Shipping Season',
-      description: 'December shows 25% increase in air freight volume',
+      title: 'Peak Season Performance',
+      description: 'Shipment volume increased 25% during holiday season',
       metric: '+25%',
       trend: 'up',
-      category: 'Seasonal'
+      category: 'Growth'
     },
     {
       title: 'Route Optimization',
-      description: 'Asia-Pacific routes show 15% cost reduction',
+      description: 'AI-powered routing reduced delivery times by 15%',
       metric: '-15%',
       trend: 'down',
-      category: 'Cost'
+      category: 'Efficiency'
     },
     {
-      title: 'Customer Growth',
-      description: 'New customer acquisition up 30% this quarter',
-      metric: '+30%',
+      title: 'Customer Retention',
+      description: 'Repeat customer rate improved to 92%',
+      metric: '+8%',
       trend: 'up',
       category: 'Growth'
     }
   ]
+
+  // Memoize periodData to prevent recreation on every render
+  const periodData = useMemo(() => ({
+    '7d': [
+      { day: 'Mon', shipments: 45, revenue: 12500, onTime: 98 },
+      { day: 'Tue', shipments: 52, revenue: 14200, onTime: 97 },
+      { day: 'Wed', shipments: 48, revenue: 13800, onTime: 99 },
+      { day: 'Thu', shipments: 61, revenue: 16800, onTime: 96 },
+      { day: 'Fri', shipments: 55, revenue: 15200, onTime: 98 },
+      { day: 'Sat', shipments: 38, revenue: 10800, onTime: 97 },
+      { day: 'Sun', shipments: 42, revenue: 11800, onTime: 99 }
+    ],
+    '30d': [
+      { day: 'Week 1', shipments: 320, revenue: 89000, onTime: 97 },
+      { day: 'Week 2', shipments: 345, revenue: 96000, onTime: 98 },
+      { day: 'Week 3', shipments: 312, revenue: 87000, onTime: 96 },
+      { day: 'Week 4', shipments: 358, revenue: 99000, onTime: 98 }
+    ],
+    '90d': [
+      { day: 'Month 1', shipments: 1247, revenue: 345000, onTime: 97 },
+      { day: 'Month 2', shipments: 1320, revenue: 368000, onTime: 98 },
+      { day: 'Month 3', shipments: 1285, revenue: 356000, onTime: 97 }
+    ]
+  }), [])
 
   // Update chart data when period changes
   useEffect(() => {
@@ -310,7 +310,7 @@ export default function AnalyticsPage() {
             
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <PieChart className="w-8 h-8 text-blue-600" />
+                <BarChart3 className="w-8 h-8 text-blue-600" />
               </div>
               <h3 className="text-lg font-semibold mb-2">Cost Analysis</h3>
               <p className="text-gray-600">Detailed cost breakdown and optimization</p>
