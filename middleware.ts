@@ -1,4 +1,4 @@
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
+import { createServerClient } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
@@ -26,7 +26,6 @@ function checkRateLimit(ip: string): boolean {
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()
-  const supabase = createMiddlewareClient({ req, res })
 
   // Rate limiting
   const ip = req.ip || req.headers.get('x-forwarded-for') || 'unknown'
@@ -40,6 +39,33 @@ export async function middleware(req: NextRequest) {
   res.headers.set('Referrer-Policy', 'origin-when-cross-origin')
   res.headers.set('X-XSS-Protection', '1; mode=block')
   res.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains')
+
+  // Create Supabase client
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return req.cookies.get(name)?.value
+        },
+        set(name: string, value: string, options: any) {
+          res.cookies.set({
+            name,
+            value,
+            ...options,
+          })
+        },
+        remove(name: string, options: any) {
+          res.cookies.set({
+            name,
+            value: '',
+            ...options,
+          })
+        },
+      },
+    }
+  )
 
   // Refresh session if expired - required for Server Components
   const {
