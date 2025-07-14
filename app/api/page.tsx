@@ -169,8 +169,8 @@ export default function ApiPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-600/10"></div>
         <div className="absolute top-0 right-0 w-full h-full">
           <Image
-            src="/hero-section.png"
-            alt="API & Integrations"
+            src="/api-hero.svg"
+            alt="API Integration Illustration"
             fill
             className="object-cover opacity-20"
           />

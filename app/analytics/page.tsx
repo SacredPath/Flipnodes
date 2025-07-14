@@ -166,7 +166,7 @@ export default function AnalyticsPage() {
         <div className="absolute top-0 right-0 w-full h-full">
           <Image
             src="/analytics-view.svg"
-            alt="Analytics View"
+            alt="Analytics Dashboard Illustration"
             fill
             className="object-cover opacity-20"
           />

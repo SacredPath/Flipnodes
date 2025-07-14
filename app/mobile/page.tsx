@@ -74,7 +74,7 @@ export default function MobilePage() {
         <div className="absolute top-0 right-0 w-full h-full">
           <Image
             src="/document-scanner.svg"
-            alt="Document Scanner"
+            alt="Mobile App Document Scanner Illustration"
             fill
             className="object-cover opacity-20"
           />
@@ -154,10 +154,7 @@ export default function MobilePage() {
                 <h3 className="text-xl font-semibold mb-4">{feature.title}</h3>
                 <p className="text-gray-600 mb-4">{feature.description}</p>
                 {feature.title === 'Document Scanner' && (
-                  <div className="flex flex-col items-center gap-4 mt-4">
-                    <Image src="/fulfilment.png" alt="Document Scanner App Screenshot 1" width={220} height={400} className="rounded-lg shadow" />
-                    <Image src="/hero-section.png" alt="Document Scanner App Screenshot 2" width={220} height={400} className="rounded-lg shadow" />
-                  </div>
+                  null
                 )}
               </div>
             ))}

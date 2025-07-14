@@ -108,7 +108,7 @@ export default function TrackingPage() {
         <div className="absolute top-0 right-0 w-full h-full">
           <Image
             src="/tracking-dashboard.svg"
-            alt="Tracking Dashboard"
+            alt="Tracking Dashboard Illustration"
             fill
             className="object-cover opacity-20"
           />
