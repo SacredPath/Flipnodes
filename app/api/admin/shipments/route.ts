@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server'
-import { shipments } from '../../tracking/[id]/route'
+import { supabase } from '@/lib/supabase'
 
 export async function GET() {
   try {
-    return NextResponse.json(shipments)
+    const { data, error } = await supabase.from('shipments').select('*')
+    if (error) throw error
+    return NextResponse.json(data)
   } catch (error) {
     return NextResponse.json(
       { error: 'Internal server error' },
@@ -15,48 +17,17 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { id, status, origin, destination, carrier, eta, currentLocation, progress, events } = body
-
-    // Validate required fields
-    if (!id || !status || !origin || !destination || !carrier || !eta) {
+    const { id, ...fields } = body
+    if (!id) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Missing required shipment id' },
         { status: 400 }
       )
     }
-
-    // Check if shipment already exists
-    const existingIndex = shipments.findIndex(s => s.id === id)
-    
-    if (existingIndex >= 0) {
-      // Update existing shipment
-      shipments[existingIndex] = {
-        id,
-        status,
-        origin,
-        destination,
-        carrier,
-        eta,
-        currentLocation: currentLocation || 'Unknown',
-        progress: progress || 0,
-        events: events || []
-      }
-    } else {
-      // Add new shipment
-      shipments.push({
-        id,
-        status,
-        origin,
-        destination,
-        carrier,
-        eta,
-        currentLocation: currentLocation || 'Unknown',
-        progress: progress || 0,
-        events: events || []
-      })
-    }
-
-    return NextResponse.json({ success: true, shipment: shipments.find(s => s.id === id) })
+    // Upsert shipment (insert or update)
+    const { data, error } = await supabase.from('shipments').upsert([{ id, ...fields }], { onConflict: 'id' }).select().single()
+    if (error) throw error
+    return NextResponse.json({ success: true, shipment: data })
   } catch (error) {
     return NextResponse.json(
       { error: 'Internal server error' },
@@ -69,27 +40,23 @@ export async function PUT(request: Request) {
   try {
     const body = await request.json()
     const { id, ...updates } = body
-
     if (!id) {
       return NextResponse.json(
         { error: 'Shipment ID is required' },
         { status: 400 }
       )
     }
-
-    const shipmentIndex = shipments.findIndex(s => s.id === id)
-    
-    if (shipmentIndex === -1) {
-      return NextResponse.json(
-        { error: 'Shipment not found' },
-        { status: 404 }
-      )
+    const { data, error } = await supabase.from('shipments').update(updates).eq('id', id).select().single()
+    if (error) {
+      if (error.code === 'PGRST116') {
+        return NextResponse.json(
+          { error: 'Shipment not found' },
+          { status: 404 }
+        )
+      }
+      throw error
     }
-
-    // Update shipment
-    shipments[shipmentIndex] = { ...shipments[shipmentIndex], ...updates }
-
-    return NextResponse.json({ success: true, shipment: shipments[shipmentIndex] })
+    return NextResponse.json({ success: true, shipment: data })
   } catch (error) {
     return NextResponse.json(
       { error: 'Internal server error' },
@@ -102,26 +69,22 @@ export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
-
     if (!id) {
       return NextResponse.json(
         { error: 'Shipment ID is required' },
         { status: 400 }
       )
     }
-
-    const shipmentIndex = shipments.findIndex(s => s.id === id)
-    
-    if (shipmentIndex === -1) {
-      return NextResponse.json(
-        { error: 'Shipment not found' },
-        { status: 404 }
-      )
+    const { error } = await supabase.from('shipments').delete().eq('id', id)
+    if (error) {
+      if (error.code === 'PGRST116') {
+        return NextResponse.json(
+          { error: 'Shipment not found' },
+          { status: 404 }
+        )
+      }
+      throw error
     }
-
-    // Remove shipment
-    shipments.splice(shipmentIndex, 1)
-
     return NextResponse.json({ success: true })
   } catch (error) {
     return NextResponse.json(
