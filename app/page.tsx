@@ -73,7 +73,7 @@ export default function HomePage() {
               <Link href="/about" className="text-gray-700 hover:text-blue-600">About</Link>
               <Link href="/careers" className="text-gray-700 hover:text-blue-600">Careers</Link>
               <Link href="/login" className="text-gray-700 hover:text-blue-600">Login</Link>
-              <Link href="/login">
+              <Link href="/signup">
                 <Button size="sm">Get Started</Button>
               </Link>
             </div>
@@ -112,7 +112,7 @@ export default function HomePage() {
                 <Link href="/about" className="block px-3 py-2 text-gray-700 hover:text-blue-600">About</Link>
                 <Link href="/careers" className="block px-3 py-2 text-gray-700 hover:text-blue-600">Careers</Link>
                 <Link href="/login" className="block px-3 py-2 text-gray-700 hover:text-blue-600">Login</Link>
-                <Link href="/login" className="block px-3 py-2">
+                <Link href="/signup" className="block px-3 py-2">
                   <Button size="sm" className="w-full">Get Started</Button>
                 </Link>
               </div>
@@ -147,7 +147,7 @@ export default function HomePage() {
               FlipRoutes is the leading technology platform for global logistics. We connect and digitize the world's supply chains, making global trade easier, more efficient, and more accessible.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Link href="/login">
+              <Link href="/signup">
                 <Button size="lg" className="flex items-center text-lg px-8 py-4">
                   Get Started Free
                   <ArrowRight className="w-5 h-5 ml-2" />
@@ -571,7 +571,7 @@ export default function HomePage() {
             Join thousands of companies already using FlipRoutes to streamline their global logistics operations.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/login">
+            <Link href="/signup">
               <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-4">
                 Get Started Free
               </Button>
@@ -587,86 +587,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            <div>
-              <div className="mb-4">
-                <Image
-                  src="/logo.svg"
-                  alt="FlipRoutes"
-                  width={120}
-                  height={40}
-                  className="h-8 w-auto filter brightness-0 invert"
-                />
-              </div>
-              <p className="text-gray-400 mb-6">
-                The platform for global trade. We connect and digitize the world's supply chains.
-              </p>
-              <div className="flex space-x-4">
-                <a href="#" className="text-gray-400 hover:text-white">
-                  <Mail className="w-5 h-5" />
-                </a>
-                <a href="#" className="text-gray-400 hover:text-white">
-                  <Phone className="w-5 h-5" />
-                </a>
-                <a href="#" className="text-gray-400 hover:text-white">
-                  <MessageSquare className="w-5 h-5" />
-                </a>
-              </div>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold mb-4">Solutions</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><Link href="/air-freight" className="hover:text-white">Air Freight</Link></li>
-                <li><Link href="/ocean-freight" className="hover:text-white">Ocean Freight</Link></li>
-                <li><Link href="/trucking" className="hover:text-white">Trucking</Link></li>
-                <li><Link href="/warehousing" className="hover:text-white">Warehousing</Link></li>
-                <li><Link href="/customs" className="hover:text-white">Customs Clearance</Link></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold mb-4">Platform</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><Link href="/tracking" className="hover:text-white">Shipment Tracking</Link></li>
-                <li><Link href="/analytics" className="hover:text-white">Analytics & Insights</Link></li>
-                <li><Link href="/api" className="hover:text-white">API & Integrations</Link></li>
-                <li><Link href="/mobile" className="hover:text-white">Mobile App</Link></li>
-                <li><Link href="/pricing" className="hover:text-white">Pricing</Link></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold mb-4">Company</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><Link href="/about" className="hover:text-white">About Us</Link></li>
-                <li><Link href="/careers" className="hover:text-white">Careers</Link></li>
-                <li><Link href="/press" className="hover:text-white">Press</Link></li>
-                <li><Link href="/contact" className="hover:text-white">Contact</Link></li>
-                <li><Link href="/blog" className="hover:text-white">Blog</Link></li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className="border-t border-gray-800 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <div className="text-gray-400 text-sm mb-4 md:mb-0">
-                &copy; 2024 FlipRoutes. All rights reserved.
-              </div>
-              <div className="flex space-x-6 text-sm text-gray-400">
-                <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
-                <Link href="/terms" className="hover:text-white">Terms of Service</Link>
-                <Link href="/cookies" className="hover:text-white">Cookie Policy</Link>
-                <Link href="/security" className="hover:text-white">Security</Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   )
 } 

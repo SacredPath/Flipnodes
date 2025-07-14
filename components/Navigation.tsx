@@ -47,11 +47,11 @@ export default function Navigation() {
           
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
-            <div className="relative" ref={dropdownRef}>
+            {/* Solutions Dropdown */}
+            <div className="relative" onMouseEnter={() => setActiveDropdown('solutions')} onMouseLeave={() => setActiveDropdown(null)}>
               <button 
                 className="flex items-center text-gray-700 hover:text-blue-600 py-2 px-3 rounded-md transition-colors"
                 onClick={() => handleDropdownToggle('solutions')}
-                onMouseEnter={() => setActiveDropdown('solutions')}
               >
                 Solutions
                 <ChevronDown className={`w-4 h-4 ml-1 transition-transform ${activeDropdown === 'solutions' ? 'rotate-180' : ''}`} />
@@ -59,8 +59,6 @@ export default function Navigation() {
               {activeDropdown === 'solutions' && (
                 <div 
                   className="absolute top-full left-0 w-64 bg-white shadow-lg border rounded-lg py-2 z-50"
-                  onMouseEnter={() => setActiveDropdown('solutions')}
-                  onMouseLeave={() => setActiveDropdown(null)}
                 >
                   <Link href="/air-freight" className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">Air Freight</Link>
                   <Link href="/ocean-freight" className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">Ocean Freight</Link>
@@ -70,12 +68,11 @@ export default function Navigation() {
                 </div>
               )}
             </div>
-            
-            <div className="relative" ref={dropdownRef}>
+            {/* Platform Dropdown */}
+            <div className="relative" onMouseEnter={() => setActiveDropdown('platform')} onMouseLeave={() => setActiveDropdown(null)}>
               <button 
                 className="flex items-center text-gray-700 hover:text-blue-600 py-2 px-3 rounded-md transition-colors"
                 onClick={() => handleDropdownToggle('platform')}
-                onMouseEnter={() => setActiveDropdown('platform')}
               >
                 Platform
                 <ChevronDown className={`w-4 h-4 ml-1 transition-transform ${activeDropdown === 'platform' ? 'rotate-180' : ''}`} />
@@ -83,8 +80,6 @@ export default function Navigation() {
               {activeDropdown === 'platform' && (
                 <div 
                   className="absolute top-full left-0 w-64 bg-white shadow-lg border rounded-lg py-2 z-50"
-                  onMouseEnter={() => setActiveDropdown('platform')}
-                  onMouseLeave={() => setActiveDropdown(null)}
                 >
                   <Link href="/tracking" className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">Shipment Tracking</Link>
                   <Link href="/analytics" className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">Analytics & Insights</Link>
