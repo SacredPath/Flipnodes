@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
-import { CheckCircle, ArrowRight, Clock, DollarSign, MapPin, Users, Globe, Shield, Zap, BarChart3, FileText, Truck, Package, Star, ChevronRight, Phone, Mail, MessageSquare, TrendingUp, TrendingDown } from 'lucide-react'
+import { CheckCircle, ArrowRight, Clock, DollarSign, MapPin, Users, Globe, Shield, Zap, BarChart3, FileText, Truck, Package, Star, ChevronRight, Phone, Mail, MessageSquare, TrendingUp, TrendingDown, Eye, Target, Trophy } from 'lucide-react'
 import { useState, useEffect, useMemo } from 'react'
 import Navigation from '@/components/Navigation'
 
@@ -318,7 +318,7 @@ export default function AnalyticsPage() {
             
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Activity className="w-8 h-8 text-blue-600" />
+                <Eye className="w-8 h-8 text-blue-600" />
               </div>
               <h3 className="text-lg font-semibold mb-2">Real-Time Monitoring</h3>
               <p className="text-gray-600">Live updates and alerts</p>
@@ -377,7 +377,7 @@ export default function AnalyticsPage() {
             
             <div className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow">
               <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
-                <Award className="w-8 h-8 text-blue-600" />
+                <Trophy className="w-8 h-8 text-blue-600" />
               </div>
               <h3 className="text-xl font-semibold mb-4">Executive Summary</h3>
               <p className="text-gray-600 mb-6">High-level insights for executive decision making</p>
