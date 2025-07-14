@@ -3,7 +3,10 @@ import { Resend } from 'resend';
 import { supabase } from '@/lib/supabase';
 import { contactFormSchema, sanitizeInput } from '@/lib/security';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+let resend: Resend | null = null;
+if (process.env.RESEND_API_KEY) {
+  resend = new Resend(process.env.RESEND_API_KEY);
+}
 
 export async function POST(req: Request) {
   try {
@@ -50,7 +53,7 @@ export async function POST(req: Request) {
     }
 
     // Send email (if Resend is configured)
-    if (process.env.RESEND_API_KEY) {
+    if (process.env.RESEND_API_KEY && resend) {
       try {
         const data = await resend.emails.send({
           from: 'Contact Form <noreply@flipnodes.com>',

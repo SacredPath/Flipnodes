@@ -7,9 +7,50 @@ import { CheckCircle, ArrowRight, Clock, DollarSign, MapPin, Code, Globe, Shield
 import { useState } from 'react'
 import Navigation from '@/components/Navigation'
 
+function EndpointModal({ open, onClose, endpoint }: { open: boolean, onClose: () => void, endpoint: any }) {
+  if (!open || !endpoint) return null
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+      <div className="bg-white rounded-xl shadow-lg w-full max-w-xl p-8 relative">
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl">&times;</button>
+        <h2 className="text-2xl font-bold mb-4">{endpoint.name} <span className="ml-2 text-sm font-normal bg-blue-100 text-blue-800 px-2 py-1 rounded">{endpoint.method}</span></h2>
+        <div className="mb-4">
+          <div className="bg-gray-100 rounded-lg p-3 mb-2">
+            <code className="text-sm text-gray-800">{endpoint.path}</code>
+          </div>
+          <p className="text-gray-700 mb-2">{endpoint.description}</p>
+        </div>
+        <h3 className="font-semibold mb-2">Features</h3>
+        <ul className="space-y-2 mb-4">
+          {endpoint.features.map((feature: string, i: number) => (
+            <li key={i} className="flex items-start">
+              <CheckCircle className="w-4 h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+              <span className="text-sm text-gray-600">{feature}</span>
+            </li>
+          ))}
+        </ul>
+        <h3 className="font-semibold mb-2">Example Request</h3>
+        <div className="bg-gray-900 rounded-lg p-4 mb-4">
+          <pre className="text-green-400 text-sm overflow-x-auto">
+            <code>{endpoint.exampleRequest || 'curl ...'}</code>
+          </pre>
+        </div>
+        <h3 className="font-semibold mb-2">Example Response</h3>
+        <div className="bg-gray-900 rounded-lg p-4">
+          <pre className="text-blue-400 text-sm overflow-x-auto">
+            <code>{endpoint.exampleResponse || '{ "success": true }'}</code>
+          </pre>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function ApiPage() {
   const [selectedEndpoint, setSelectedEndpoint] = useState('shipments')
   const [apiKey, setApiKey] = useState('flip_sk_test_1234567890abcdef')
+  const [modalOpen, setModalOpen] = useState(false)
+  const [modalEndpoint, setModalEndpoint] = useState<any>(null)
 
   const endpoints = [
     {
@@ -18,7 +59,29 @@ export default function ApiPage() {
       description: 'Create, track, and manage shipments',
       method: 'GET',
       path: '/api/v1/shipments',
-      features: ['Create shipments', 'Track status', 'Update details', 'Delete shipments']
+      features: ['Create shipments', 'Track status', 'Update details', 'Delete shipments'],
+      exampleRequest: `curl -X GET "https://api.fliproutes.com/v1/shipments" \\
+  -H "Authorization: Bearer ${apiKey}" \\
+  -H "Content-Type: application/json"`,
+      exampleResponse: `{
+  "data": [
+    {
+      "id": "FLIP123456789",
+      "status": "in_transit",
+      "origin": "Shanghai, China",
+      "destination": "Los Angeles, USA",
+      "carrier": "Maersk",
+      "eta": "2024-12-15T10:00:00Z",
+      "current_location": "Pacific Ocean",
+      "progress": 65
+    }
+  ],
+  "meta": {
+    "total": 1,
+    "page": 1,
+    "per_page": 20
+  }
+}`
     },
     {
       id: 'tracking',
@@ -26,7 +89,24 @@ export default function ApiPage() {
       description: 'Real-time shipment tracking and updates',
       method: 'GET',
       path: '/api/v1/tracking/{id}',
-      features: ['Real-time updates', 'GPS tracking', 'Milestone events', 'ETA predictions']
+      features: ['Real-time updates', 'GPS tracking', 'Milestone events', 'ETA predictions'],
+      exampleRequest: `curl -X GET "https://api.fliproutes.com/v1/tracking/{id}" \\
+  -H "Authorization: Bearer ${apiKey}" \\
+  -H "Content-Type: application/json"`,
+      exampleResponse: `{
+  "data": {
+    "id": "FLIP123456789",
+    "status": "in_transit",
+    "location": "Los Angeles, USA",
+    "last_update": "2024-12-10T10:00:00Z",
+    "eta": "2024-12-15T10:00:00Z",
+    "current_location": "Los Angeles, USA",
+    "progress": 75
+  },
+  "meta": {
+    "success": true
+  }
+}`
     },
     {
       id: 'rates',
@@ -34,7 +114,25 @@ export default function ApiPage() {
       description: 'Get shipping rates and quotes',
       method: 'POST',
       path: '/api/v1/rates',
-      features: ['Instant quotes', 'Multiple carriers', 'Service options', 'Cost breakdown']
+      features: ['Instant quotes', 'Multiple carriers', 'Service options', 'Cost breakdown'],
+      exampleRequest: `curl -X POST "https://api.fliproutes.com/v1/rates" \\
+  -H "Authorization: Bearer ${apiKey}" \\
+  -H "Content-Type: application/json" \\
+  -d '{"origin": "New York, USA", "destination": "Los Angeles, USA", "weight": 10, "dimensions": {"length": 10, "width": 5, "height": 5}}'`,
+      exampleResponse: `{
+  "data": {
+    "id": "FLIP123456789",
+    "carrier": "UPS",
+    "service": "Ground",
+    "rate": 150.00,
+    "currency": "USD",
+    "eta": "2024-12-15T10:00:00Z",
+    "guaranteed": true
+  },
+  "meta": {
+    "success": true
+  }
+}`
     }
   ]
 
@@ -91,12 +189,12 @@ export default function ApiPage() {
               Build custom solutions, automate workflows, and connect your systems seamlessly.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="#docs">
+              <a href="#docs">
                 <Button size="lg" className="flex items-center text-lg px-8 py-4">
                   View Documentation
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
-              </Link>
+              </a>
               <Link href="/contact">
                 <Button size="lg" variant="outline" className="flex items-center text-lg px-8 py-4">
                   <Phone className="w-5 h-5 mr-2" />
@@ -177,7 +275,7 @@ export default function ApiPage() {
                   ))}
                 </ul>
                 <Button
-                  onClick={() => setSelectedEndpoint(endpoint.id)}
+                  onClick={() => { setModalEndpoint(endpoint); setModalOpen(true); }}
                   className={`w-full ${
                     selectedEndpoint === endpoint.id
                       ? 'bg-blue-600 hover:bg-blue-700 text-white'
@@ -389,6 +487,7 @@ export default function ApiPage() {
           </div>
         </div>
       </section>
+      <EndpointModal open={modalOpen} onClose={() => setModalOpen(false)} endpoint={modalEndpoint} />
     </div>
   )
 } 

@@ -130,6 +130,14 @@ export default function LoginPage() {
               </Button>
             </div>
 
+            <div className="text-center mt-4">
+              <a href="/signup">
+                <Button type="button" variant="outline" className="w-full">
+                  Start Free Trial
+                </Button>
+              </a>
+            </div>
+
             <div className="text-center">
               <p className="text-sm text-gray-600">
                 Don't have an account?{' '}

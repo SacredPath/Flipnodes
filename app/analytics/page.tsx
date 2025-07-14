@@ -124,9 +124,36 @@ export default function AnalyticsPage() {
     setIsLoading(true)
     // Simulate report generation
     setTimeout(() => {
-      alert(`${reportType} report generated successfully!`)
+      // Generate CSV data based on reportType
+      let csv = ''
+      if (reportType === 'Monthly') {
+        csv += 'Day,Shipments,Revenue,On-Time Delivery\n'
+        periodData['30d'].forEach((row: any) => {
+          csv += `${row.day},${row.shipments},${row.revenue},${row.onTime}%\n`
+        })
+      } else if (reportType === 'Executive') {
+        csv += 'Metric,Value\n'
+        metrics.forEach((m) => {
+          csv += `${m.name},${m.value}\n`
+        })
+      } else if (reportType === 'Custom') {
+        csv += 'Day,Shipments,Revenue,On-Time Delivery\n'
+        chartData.forEach((row: any) => {
+          csv += `${row.day},${row.shipments},${row.revenue},${row.onTime}%\n`
+        })
+      }
+      // Download CSV
+      const blob = new Blob([csv], { type: 'text/csv' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${reportType}-Report.csv`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
       setIsLoading(false)
-    }, 2000)
+    }, 1200)
   }
 
   return (

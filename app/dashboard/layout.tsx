@@ -8,6 +8,7 @@ import {
   BarChart3,
   Truck
 } from 'lucide-react'
+import DashboardFooter from '@/components/ui/DashboardFooter'
 
 export default function DashboardLayout({
   children,
@@ -97,6 +98,7 @@ export default function DashboardLayout({
           <main className="p-8">
             {children}
           </main>
+          <DashboardFooter />
         </div>
       </div>
     </div>

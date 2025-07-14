@@ -152,7 +152,13 @@ export default function MobilePage() {
                   <feature.icon className="w-8 h-8 text-blue-600" />
                 </div>
                 <h3 className="text-xl font-semibold mb-4">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <p className="text-gray-600 mb-4">{feature.description}</p>
+                {feature.title === 'Document Scanner' && (
+                  <div className="flex flex-col items-center gap-4 mt-4">
+                    <Image src="/fulfilment.png" alt="Document Scanner App Screenshot 1" width={220} height={400} className="rounded-lg shadow" />
+                    <Image src="/hero-section.png" alt="Document Scanner App Screenshot 2" width={220} height={400} className="rounded-lg shadow" />
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -277,30 +283,21 @@ export default function MobilePage() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="bg-gray-100 rounded-2xl p-8 mb-4 h-96 flex items-center justify-center">
-                <div className="text-center">
-                  <Smartphone className="w-16 h-16 text-blue-400 mx-auto mb-4" />
-                  <p className="text-gray-600">Tracking Dashboard</p>
-                </div>
+                <Image src="/tracking-dashboard.svg" alt="Tracking Dashboard Screenshot" width={220} height={400} className="rounded-lg shadow object-contain h-full" />
               </div>
               <h3 className="font-semibold">Tracking Dashboard</h3>
             </div>
             
             <div className="text-center">
               <div className="bg-gray-100 rounded-2xl p-8 mb-4 h-96 flex items-center justify-center">
-                <div className="text-center">
-                  <BarChart3 className="w-16 h-16 text-blue-400 mx-auto mb-4" />
-                  <p className="text-gray-600">Analytics View</p>
-                </div>
+                <Image src="/analytics-view.svg" alt="Analytics View Screenshot" width={220} height={400} className="rounded-lg shadow object-contain h-full" />
               </div>
               <h3 className="font-semibold">Analytics View</h3>
             </div>
             
             <div className="text-center">
               <div className="bg-gray-100 rounded-2xl p-8 mb-4 h-96 flex items-center justify-center">
-                <div className="text-center">
-                  <Camera className="w-16 h-16 text-blue-400 mx-auto mb-4" />
-                  <p className="text-gray-600">Document Scanner</p>
-                </div>
+                <Image src="/fulfilment.png" alt="Document Scanner Screenshot" width={220} height={400} className="rounded-lg shadow object-contain h-full" />
               </div>
               <h3 className="font-semibold">Document Scanner</h3>
             </div>

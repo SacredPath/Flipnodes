@@ -71,31 +71,6 @@ export default function PricingPage() {
     }
   ]
 
-  const handlePayment = async (planId: string) => {
-    // In a real implementation, this would integrate with Stripe
-    console.log(`Processing payment for ${planId} plan`)
-    
-    // Simulate payment processing
-    const loading = document.createElement('div')
-    loading.innerHTML = `
-      <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white rounded-lg p-8 text-center">
-          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p class="text-lg font-semibold">Processing Payment...</p>
-          <p class="text-gray-600">Please wait while we securely process your payment</p>
-        </div>
-      </div>
-    `
-    document.body.appendChild(loading)
-
-    // Simulate API call
-    setTimeout(() => {
-      document.body.removeChild(loading)
-      alert(`Payment successful! Welcome to FlipRoutes ${planId} plan.`)
-      window.location.href = '/dashboard'
-    }, 2000)
-  }
-
   return (
     <div className="bg-white">
       <Navigation />
@@ -172,24 +147,37 @@ export default function PricingPage() {
                 <ul className="space-y-4 mb-8">
                   {plan.features.map((feature, index) => (
                     <li key={index} className="flex items-start">
-                      <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                      <CheckCircle className="w-4 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
                       <span className="text-gray-700">{feature}</span>
                     </li>
                   ))}
                 </ul>
                 
-                <Button
-                  onClick={() => handlePayment(plan.id)}
-                  className={`w-full ${
-                    plan.popular
-                      ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                      : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
-                  }`}
-                  size="lg"
-                >
-                  <CreditCard className="w-5 h-5 mr-2" />
-                  Get Started
-                </Button>
+                {plan.id === 'enterprise' ? (
+                  <Link href="/contact">
+                    <Button
+                      className="w-full bg-gray-100 hover:bg-gray-200 text-gray-900"
+                      size="lg"
+                    >
+                      <CreditCard className="w-5 h-5 mr-2" />
+                      Contact Sales
+                    </Button>
+                  </Link>
+                ) : (
+                  <Link href={`/signup?plan=${plan.id}`}>
+                    <Button
+                      className={`w-full ${
+                        plan.popular
+                          ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                          : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
+                      }`}
+                      size="lg"
+                    >
+                      <CreditCard className="w-5 h-5 mr-2" />
+                      Get Started
+                    </Button>
+                  </Link>
+                )}
               </div>
             ))}
           </div>

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button'
 import { CheckCircle, ArrowRight, Clock, DollarSign, MapPin, FileText, Globe, Shield, Zap, Users, BarChart3, Truck, Package, Star, ChevronRight, Phone, Mail, MessageSquare, Scale, Gavel } from 'lucide-react'
 import { useState } from 'react'
 import Navigation from '@/components/Navigation'
+import { supabase } from '@/lib/supabase'
 
 export default function CustomsPage() {
   const [selectedService, setSelectedService] = useState('clearance')
@@ -13,6 +14,8 @@ export default function CustomsPage() {
   const [destination, setDestination] = useState('')
   const [cargoType, setCargoType] = useState('')
   const [value, setValue] = useState('')
+  const [formStatus, setFormStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [formError, setFormError] = useState<string | null>(null)
 
   const services = [
     {
@@ -44,9 +47,27 @@ export default function CustomsPage() {
     }
   ]
 
-  const handleQuoteRequest = (e: React.FormEvent) => {
+  const handleQuoteRequest = async (e: React.FormEvent) => {
     e.preventDefault()
-    alert('Customs clearance quote request submitted! We\'ll contact you within 4 hours.')
+    setFormStatus('loading')
+    setFormError(null)
+    try {
+      const { error } = await supabase.from('quote_requests').insert([
+        {
+          service_type: 'customs',
+          origin,
+          destination,
+          cargo_type: cargoType,
+          value,
+          status: 'pending',
+        }
+      ])
+      if (error) throw error
+      setFormStatus('success')
+    } catch (err: any) {
+      setFormError('Failed to submit quote request. Please try again.')
+      setFormStatus('error')
+    }
   }
 
   return (
@@ -310,9 +331,9 @@ export default function CustomsPage() {
                 </div>
                 
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button type="submit" size="lg" className="flex-1">
+                  <Button type="submit" size="lg" className="flex-1" disabled={formStatus === 'loading'}>
                     <Mail className="w-5 h-5 mr-2" />
-                    Request Customs Quote
+                    {formStatus === 'loading' ? 'Submitting...' : 'Request Customs Quote'}
                   </Button>
                   <Link href="/contact">
                     <Button size="lg" variant="outline" className="flex-1">
@@ -321,6 +342,8 @@ export default function CustomsPage() {
                     </Button>
                   </Link>
                 </div>
+                {formError && <div className="text-red-600 text-sm mt-4">{formError}</div>}
+                {formStatus === 'success' && <div className="text-green-600 text-sm mt-4">Quote request submitted! We'll contact you within 4 hours.</div>}
               </form>
             </div>
           </div>

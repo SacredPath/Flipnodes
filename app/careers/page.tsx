@@ -6,9 +6,12 @@ import { Button } from '@/components/ui/Button'
 import { CheckCircle, ArrowRight, Clock, DollarSign, MapPin, Users, Globe, Shield, Zap, BarChart3, FileText, Truck, Package, Star, ChevronRight, Phone, Mail, MessageSquare, Briefcase, Heart, Lightbulb, Users as TeamIcon, GraduationCap, Zap as Lightning } from 'lucide-react'
 import { useState } from 'react'
 import Navigation from '@/components/Navigation'
+import ApplyModal from '@/components/careers/ApplyModal'
 
 export default function CareersPage() {
   const [selectedDepartment, setSelectedDepartment] = useState('all')
+  const [applyOpen, setApplyOpen] = useState(false)
+  const [selectedJob, setSelectedJob] = useState<any>(null)
 
   const departments = [
     { id: 'all', name: 'All Departments' },
@@ -222,7 +225,7 @@ export default function CareersPage() {
                       </span>
                     </div>
                   </div>
-                  <Button className="lg:ml-4 mt-4 lg:mt-0">
+                  <Button className="lg:ml-4 mt-4 lg:mt-0" onClick={() => { setSelectedJob(job); setApplyOpen(true); }}>
                     Apply Now
                   </Button>
                 </div>
@@ -329,6 +332,7 @@ export default function CareersPage() {
           </div>
         </div>
       </section>
+      <ApplyModal open={applyOpen} onClose={() => setApplyOpen(false)} job={selectedJob} />
     </div>
   )
 } 
